@@ -8,6 +8,9 @@ const app = express();
 dotenv.config();
 app.use(express.json());
 
+// I add the error handling middleware to this place then, this middlewar dont work bro
+
+
 mongoose
   .connect(process.env.URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Connected to MongoDB'))
@@ -20,3 +23,15 @@ app.listen(3000,() =>{
 
 app.use('/api/user',userRoutes);
 app.use('/api/auth',authRoutes);
+
+// but I added the middleware to this place then it works corectly (can you explain the defference )
+
+app.use((err,req,res,next) => {
+  const statusCode = err.statusCode || 500;
+  const message = err.message || "internal Server Error";
+  res.status(statusCode).json({
+    success: false,
+    statusCode,
+    message
+  })
+});
