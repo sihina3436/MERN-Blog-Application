@@ -1,12 +1,19 @@
+
 import express from 'express'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 import userRoutes from './routes/user.routes.js'
 import authRoutes from './routes/auth.route.js'
+import cors from 'cors'
+
 
 const app = express();
 dotenv.config();
+app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
+
 app.use(express.json());
+
+
 
 // I add the error handling middleware to this place then, this middlewar dont work bro
 
@@ -16,7 +23,7 @@ mongoose
   .then(() => console.log('Connected to MongoDB'))
   .catch((error) => console.error('Error connecting to MongoDB:', error));
 
-app.listen(3000,() =>{
+app.listen(5000,() =>{
     console.log(`Server is running on port 3000`);
 });
 
